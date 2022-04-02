@@ -1,0 +1,24 @@
+version: "3"
+services:
+  backend:
+    tty: true
+    build: .
+    container_name: bezen_backend 
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    image: postgres
+    container_name: bezen_pgdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: BEZENDB
+      POSTGRES_PASSWORD: 123
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
