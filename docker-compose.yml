@@ -3,7 +3,7 @@ services:
   backend:
     tty: true
     build: .
-    container_name: bezen_backend 
+    container_name: bezen_backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -22,3 +22,19 @@ services:
       POSTGRES_PASSWORD: 123
     volumes:
       - ./postgres_data:/var/lib/postgresql/data/
+  redis:
+    image: redis:alpine
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A bezenAssignment worker -l info
+    volumes:
+      - .:/code
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+      - backend
+
