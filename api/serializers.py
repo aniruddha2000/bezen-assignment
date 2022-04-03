@@ -5,3 +5,4 @@ from api.views import Record
 class RecordListCreateSerializer(ModelSerializer):
     class Meta:
         model = Record
+        fields = "__all__"
